@@ -18,16 +18,64 @@ Sentinel inherits Superpowers' priority chain:
 
 ## Skill Selection
 
-Read the task and invoke the correct sentinel skill:
+**Step 1: Detect Architecture/Technology Stack FIRST**
 
-| Situation | Skill to invoke |
-|-----------|----------------|
-| Reviewing source code for vulnerabilities | `sentinel:sentinel-audit` |
-| Penetration testing, recon, exploitation | `sentinel:sentinel-pentest` |
-| CTF challenge (web/pwn/crypto/reverse/misc) | `sentinel:sentinel-ctf` |
-| Writing audit report or vulnerability report | `sentinel:sentinel-report` |
+Before invoking any skill, identify what you're working with:
 
-**When in doubt:** Invoke `sentinel:sentinel-audit` — it covers the broadest ground.
+```
+☐ What is the application type?
+  ├── Web (Frontend)     → Vue.js / React / Angular
+  ├── Web (Backend)      → PHP / Python / Node.js / Java / Go / C#
+  ├── Mobile             → Android (Kotlin/Java) / iOS (Swift/ObjC)
+  ├── API-only           → REST / GraphQL / gRPC
+  ├── Desktop            → Electron / Qt / .NET
+  └── Infrastructure     → Docker / Kubernetes / Cloud configs
+
+☐ What is the framework (if any)?
+  ├── PHP: Laravel / Symfony / CodeIgniter / WordPress
+  ├── Python: Django / Flask / FastAPI
+  ├── Java: Spring / Struts / Jakarta EE
+  ├── Node.js: Express / Koa / NestJS / Next.js
+  └── Go: Gin / Echo / Fiber
+
+☐ What is the deployment environment?
+  ├── On-premise / Cloud (AWS/GCP/Azure)
+  ├── Containerized (Docker/Kubernetes)
+  └── Serverless
+```
+
+**Step 2: Route Based on Architecture**
+
+| Architecture Detected | Primary Skill | Reference Files |
+|-----------------------|---------------|-----------------|
+| **Frontend (Vue/React/Angular)** | `sentinel:sentinel-frontend` | `patterns-vue.md`, `patterns-react.md`, `patterns-angular.md` |
+| **Backend (PHP)** | `sentinel:sentinel-audit` | `patterns-php.md` |
+| **Backend (Python)** | `sentinel:sentinel-audit` | `patterns-python.md` |
+| **Backend (Node.js)** | `sentinel:sentinel-audit` | `patterns-js.md` |
+| **Backend (Java)** | `sentinel:sentinel-audit` | `patterns-java.md` |
+| **API (REST/GraphQL)** | `sentinel:sentinel-audit` | + IDOR patterns |
+| **Full Stack** | `sentinel:sentinel-audit` | + frontend + backend refs |
+| **Live System (authorized)** | `sentinel:sentinel-pentest` | — |
+| **CTF Challenge** | `sentinel:sentinel-ctf` | — |
+| **Report Writing** | `sentinel:sentinel-report` | — |
+
+**Skill Routing Flow:**
+
+```dot
+digraph sentinel_routing {
+    "User Request" -> "Detect Architecture"
+    "Detect Architecture" -> "Frontend?" [label="Vue/React/Angular?"]
+    "Detect Architecture" -> "Backend?" [label="PHP/Python/Node/Java?"]
+    "Detect Architecture" -> "API?" [label="REST/GraphQL?"]
+    "Detect Architecture" -> "Mobile?" [label="Android/iOS?"]
+    "Frontend?" -> "sentinel:sentinel-frontend"
+    "Backend?" -> "sentinel:sentinel-audit"
+    "API?" -> "sentinel:sentinel-audit"
+    "Mobile?" -> "sentinel:sentinel-audit" [label=" (add mobile refs)"]
+}
+```
+
+**When in doubt:** Invoke `sentinel:sentinel-audit` first — it covers the broadest ground and includes cross-site/framework patterns.
 
 ## Core Security Mindset
 

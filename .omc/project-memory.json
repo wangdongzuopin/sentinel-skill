@@ -56,75 +56,129 @@
   },
   "hotPaths": [
     {
-      "path": "",
-      "accessCount": 2,
-      "lastAccessed": 1775721398615,
-      "type": "directory"
+      "path": "skills\\sentinel-audit\\SKILL.md",
+      "accessCount": 12,
+      "lastAccessed": 1775724885766,
+      "type": "file"
     },
     {
       "path": "README.md",
-      "accessCount": 1,
-      "lastAccessed": 1775721408097,
+      "accessCount": 11,
+      "lastAccessed": 1775725544483,
       "type": "file"
-    },
-    {
-      "path": "skills",
-      "accessCount": 1,
-      "lastAccessed": 1775721408120,
-      "type": "directory"
     },
     {
       "path": "skills\\using-sentinel\\SKILL.md",
-      "accessCount": 1,
-      "lastAccessed": 1775721419265,
+      "accessCount": 6,
+      "lastAccessed": 1775724780682,
       "type": "file"
     },
     {
-      "path": "skills\\sentinel-report\\SKILL.md",
-      "accessCount": 1,
-      "lastAccessed": 1775721419288,
-      "type": "file"
+      "path": "",
+      "accessCount": 3,
+      "lastAccessed": 1775723915125,
+      "type": "directory"
     },
     {
-      "path": "skills\\sentinel-ctf\\SKILL.md",
-      "accessCount": 1,
-      "lastAccessed": 1775721419327,
+      "path": "skills",
+      "accessCount": 3,
+      "lastAccessed": 1775724356360,
+      "type": "directory"
+    },
+    {
+      "path": "SENTINEL_SKILL_GUIDE.md",
+      "accessCount": 3,
+      "lastAccessed": 1775725306932,
       "type": "file"
     },
     {
       "path": "skills\\sentinel-pentest\\SKILL.md",
-      "accessCount": 1,
-      "lastAccessed": 1775721419343,
+      "accessCount": 2,
+      "lastAccessed": 1775723921261,
       "type": "file"
     },
     {
-      "path": "skills\\sentinel-audit\\SKILL.md",
-      "accessCount": 1,
-      "lastAccessed": 1775721419358,
+      "path": "skills\\sentinel-ctf\\SKILL.md",
+      "accessCount": 2,
+      "lastAccessed": 1775723921342,
       "type": "file"
     },
     {
-      "path": "skills\\sentinel-audit\\references\\patterns-php.md",
-      "accessCount": 1,
-      "lastAccessed": 1775721427095,
-      "type": "file"
-    },
-    {
-      "path": "skills\\sentinel-audit\\references\\patterns-java.md",
-      "accessCount": 1,
-      "lastAccessed": 1775721427108,
-      "type": "file"
-    },
-    {
-      "path": "skills\\sentinel-audit\\references\\patterns-python.md",
-      "accessCount": 1,
-      "lastAccessed": 1775721427147,
+      "path": "skills\\sentinel-report\\SKILL.md",
+      "accessCount": 2,
+      "lastAccessed": 1775723921462,
       "type": "file"
     },
     {
       "path": "skills\\sentinel-audit\\references\\patterns-js.md",
+      "accessCount": 2,
+      "lastAccessed": 1775723929441,
+      "type": "file"
+    },
+    {
+      "path": "skills\\sentinel-audit\\references\\patterns-php.md",
+      "accessCount": 2,
+      "lastAccessed": 1775723929513,
+      "type": "file"
+    },
+    {
+      "path": "skills\\sentinel-audit\\references\\patterns-java.md",
+      "accessCount": 2,
+      "lastAccessed": 1775723929544,
+      "type": "file"
+    },
+    {
+      "path": "skills\\sentinel-audit\\references\\patterns-python.md",
+      "accessCount": 2,
+      "lastAccessed": 1775723929571,
+      "type": "file"
+    },
+    {
+      "path": "skills\\sentinel-cve\\SKILL.md",
       "accessCount": 1,
-      "lastAccessed": 1775721427209,
+      "lastAccessed": 1775724128373,
+      "type": "file"
+    },
+    {
+      "path": "skills\\sentinel-frontend\\SKILL.md",
+      "accessCount": 1,
+      "lastAccessed": 1775724209136,
+      "type": "file"
+    },
+    {
+      "path": "skills\\sentinel-frontend\\references\\patterns-vue.md",
+      "accessCount": 1,
+      "lastAccessed": 1775724273946,
+      "type": "file"
+    },
+    {
+      "path": "skills\\sentinel-frontend\\references\\patterns-react.md",
+      "accessCount": 1,
+      "lastAccessed": 1775724275368,
+      "type": "file"
+    },
+    {
+      "path": "skills\\sentinel-frontend\\references\\patterns-angular.md",
+      "accessCount": 1,
+      "lastAccessed": 1775724322517,
+      "type": "file"
+    },
+    {
+      "path": "skills\\sentinel-audit\\references\\patterns-idor.md",
+      "accessCount": 1,
+      "lastAccessed": 1775724598139,
+      "type": "file"
+    },
+    {
+      "path": "test-vuln.js",
+      "accessCount": 1,
+      "lastAccessed": 1775724999554,
+      "type": "file"
+    },
+    {
+      "path": "aa.vue",
+      "accessCount": 1,
+      "lastAccessed": 1775725049871,
       "type": "file"
     }
   ],

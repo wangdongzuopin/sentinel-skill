@@ -1,0 +1,132 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1775720870554,
+  "projectRoot": "d:\\Agent\\sentinel-skill",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "skills": {
+      "path": "skills",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1775720870537,
+      "keyFiles": []
+    },
+    "{references,scripts,assets}": {
+      "path": "{references,scripts,assets}",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1775720870538,
+      "keyFiles": []
+    },
+    "{skills": {
+      "path": "{skills",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1775720870539,
+      "keyFiles": []
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "",
+      "accessCount": 2,
+      "lastAccessed": 1775721398615,
+      "type": "directory"
+    },
+    {
+      "path": "README.md",
+      "accessCount": 1,
+      "lastAccessed": 1775721408097,
+      "type": "file"
+    },
+    {
+      "path": "skills",
+      "accessCount": 1,
+      "lastAccessed": 1775721408120,
+      "type": "directory"
+    },
+    {
+      "path": "skills\\using-sentinel\\SKILL.md",
+      "accessCount": 1,
+      "lastAccessed": 1775721419265,
+      "type": "file"
+    },
+    {
+      "path": "skills\\sentinel-report\\SKILL.md",
+      "accessCount": 1,
+      "lastAccessed": 1775721419288,
+      "type": "file"
+    },
+    {
+      "path": "skills\\sentinel-ctf\\SKILL.md",
+      "accessCount": 1,
+      "lastAccessed": 1775721419327,
+      "type": "file"
+    },
+    {
+      "path": "skills\\sentinel-pentest\\SKILL.md",
+      "accessCount": 1,
+      "lastAccessed": 1775721419343,
+      "type": "file"
+    },
+    {
+      "path": "skills\\sentinel-audit\\SKILL.md",
+      "accessCount": 1,
+      "lastAccessed": 1775721419358,
+      "type": "file"
+    },
+    {
+      "path": "skills\\sentinel-audit\\references\\patterns-php.md",
+      "accessCount": 1,
+      "lastAccessed": 1775721427095,
+      "type": "file"
+    },
+    {
+      "path": "skills\\sentinel-audit\\references\\patterns-java.md",
+      "accessCount": 1,
+      "lastAccessed": 1775721427108,
+      "type": "file"
+    },
+    {
+      "path": "skills\\sentinel-audit\\references\\patterns-python.md",
+      "accessCount": 1,
+      "lastAccessed": 1775721427147,
+      "type": "file"
+    },
+    {
+      "path": "skills\\sentinel-audit\\references\\patterns-js.md",
+      "accessCount": 1,
+      "lastAccessed": 1775721427209,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

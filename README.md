@@ -1,14 +1,42 @@
-# Sentinel — Security Skills for Claude Code
+# Sentinel — Portable Security Skills for AI Agents
 
 <!-- lang:zh -->
-Sentinel 是 [Superpowers](https://github.com/obra/superpowers) 的安全技能扩展，提供专业的安全分析技能集，涵盖代码审计、渗透测试、CTF 挑战和安全报告撰写。
-
-Sentinel 是 [Superpowers](https://github.com/obra/superpowers) 的安全技能扩展，提供专业的安全分析技能集，涵盖代码审计、渗透测试、CTF 挑战和安全报告撰写。
+Sentinel 是**可独立安装、多宿主可用**的安全分析技能集（Markdown + YAML frontmatter），适用于 **Claude Code、Cursor、OpenAI Codex、Trae** 等能加载项目规则、技能或长上下文的 AI 编程助手。内容涵盖代码审计、渗透测试、CTF、安全报告与 CVE 查询；内置通用工作流技能（调试、验证、评审、规划），**不依赖** Superpowers 插件即可闭环使用。若你已安装 Superpowers，可与 Sentinel 并存、互为补充。
 <!-- /lang:zh -->
 
 <!-- lang:en -->
-Sentinel extends [Superpowers](https://github.com/obra/superpowers) with a professional security analysis skill set covering code auditing, penetration testing, CTF challenges, and security report writing.
+Sentinel is a **standalone, host-portable** security skill set (Markdown + YAML frontmatter) for **Claude Code, Cursor, OpenAI Codex, Trae**, and other agents that support rules, skills, or long-context project docs. It covers auditing, pentesting, CTF work, reporting, and CVE research, with a built-in workflow skill (debugging, verification, review, planning) — **no** Superpowers plugin required. Superpowers may still coexist if you use it.
 <!-- /lang:en -->
+
+---
+
+<!-- lang:zh -->
+## 多宿主兼容 / Multi-host compatibility
+<!-- /lang:zh -->
+
+<!-- lang:en -->
+## Multi-host compatibility
+<!-- /lang:en -->
+
+<!-- lang:zh -->
+- **格式**：每个技能是 `SKILL.md` 文件，含 YAML `name` / `description` 与正文说明；任意客户端只要能把该文件纳入系统提示、规则或知识库即可使用。
+- **引用名**：文档中的 `sentinel:skill-name` 表示**逻辑技能 id**（与文件夹名对应）。各产品中的挂载方式不同：可能是插件技能 id、Cursor Rule、Codex skill、或你在对话里 `@` / 粘贴的文件路径——以对应产品文档为准。
+- **触发**：支持「按 description 自动匹配技能」的宿主可能自动选用；其它环境请在任务开始时**显式**打开或粘贴相关 `SKILL.md`，或在项目规则中写明「安全类任务先遵循 `skills/sentinel-skill/using-sentinel/SKILL.md`」。
+<!-- /lang:zh -->
+
+<!-- lang:en -->
+- **Format:** Each skill is a `SKILL.md` with YAML `name` / `description` plus body text. Any client that can load that file into system instructions, rules, or a knowledge bundle can use it.
+- **IDs:** `sentinel:skill-name` is a **logical skill id** (matches the folder name). Mapping differs by product (plugin skill, Cursor rule, Codex skill, `@` file, pasted prompt) — follow that product’s docs.
+- **Activation:** Hosts with skill discovery may auto-match from `description`. Else **explicitly** open or paste the `SKILL.md`, or point project rules at `skills/sentinel-skill/using-sentinel/SKILL.md` for security tasks.
+<!-- /lang:en -->
+
+| 宿主 / Host | 常见接入方式 / Typical wiring (check vendor docs) |
+|-------------|---------------------------------------------------|
+| **Claude Code** | 插件 / 全局或项目 `skills` 目录；历史路径示例见下方安装节 |
+| **Cursor** | 项目 `.cursor/rules/`、`AGENTS.md`、或 Cursor Skills（视版本而定） |
+| **Codex CLI / 兼容环境** | `~/.codex/skills`、项目 `.codex`、`.agents/skills` 等 |
+| **Trae** | 按 Trae 官方说明绑定自定义指令、工作区规则或知识库；将本仓库 `skills/sentinel-skill/` 作为可读文档导入 |
+| **其它 IDE / 助手** | 将所需 `SKILL.md` 复制到该工具要求的目录，或在自定义提示中引用仓库路径 |
 
 ---
 
@@ -23,6 +51,7 @@ Sentinel extends [Superpowers](https://github.com/obra/superpowers) with a profe
 | Skill | 用途 / Purpose |
 |-------|----------------|
 | `sentinel:using-sentinel` | 入口技能，路由到正确的技能 / Entry point — routes to the right skill |
+| `sentinel:sentinel-workflow` | 内置工作流：根因分析、完成前验证、安全向代码评审、方案探索、多目标并行 / Built-in workflow — root cause, verification, review, design, parallel work |
 | `sentinel:sentinel-audit` | 源代码安全审计 (OWASP, SAST) / Source code security audit |
 | `sentinel:sentinel-pentest` | 渗透测试工作流 / Penetration testing workflow |
 | `sentinel:sentinel-ctf` | CTF 挑战解题 / CTF challenge solving |
@@ -85,17 +114,12 @@ The audit skill covers these vulnerability types (OWASP Top 10 + extended):
 <!-- /lang:en -->
 
 <!-- lang:zh -->
-Sentinel 旨在与 Superpowers **配合使用**，而非替代它。请先安装 Superpowers：
+**无硬性依赖。** 将本仓库（或其中的 `skills/sentinel-skill/`）接入你所用 AI 客户端的规则/技能/知识库路径即可（见下方安装）。可选：若你希望同时使用 [Superpowers](https://github.com/obra/superpowers) 的其它开发类技能，可自行安装；Sentinel 不依赖其存在。
 <!-- /lang:zh -->
 
 <!-- lang:en -->
-Sentinel is designed to work **alongside Superpowers**, not instead of it. Install Superpowers first:
+**No hard dependency.** Wire this repo (or its `skills/sentinel-skill/` tree) into your client’s rules/skills/knowledge path (see Installation). **Optional:** add [Superpowers](https://github.com/obra/superpowers) for extra dev-oriented skills; Sentinel does not require it.
 <!-- /lang:en -->
-
-```bash
-/plugin marketplace add obra/superpowers-marketplace
-/plugin install superpowers@superpowers-marketplace
-```
 
 ---
 
@@ -108,12 +132,25 @@ Sentinel is designed to work **alongside Superpowers**, not instead of it. Insta
 <!-- /lang:en -->
 
 ```bash
-# 克隆到 skills 目录 / Clone into skills directory
-git clone https://github.com/wangdongzuopin/sentinel-skill ~/.claude/sentinel
-
-# 或通过插件市场安装 (发布后) / Or via plugin marketplace (when published)
-/plugin install sentinel@sentinel-marketplace
+# 通用：克隆后，八个技能位于 skills/sentinel-skill/<skill-name>/
+# Generic: after clone, the eight skills live under skills/sentinel-skill/<skill-name>/
+git clone https://github.com/wangdongzuopin/sentinel-skill
 ```
+
+<!-- lang:zh -->
+**按宿主接入（示例，以各产品最新文档为准）：**
+<!-- /lang:zh -->
+
+<!-- lang:en -->
+**Per-host wiring (examples — follow each product’s current docs):**
+<!-- /lang:en -->
+
+| 宿主 / Host | 示例 / Example |
+|-------------|----------------|
+| **Claude Code** | 将 `skills/sentinel-skill/` 拷入或链接到项目的 `.claude/skills/sentinel-skill/`（每个技能为子目录 + `SKILL.md`）；或使用插件市场 `/plugin install sentinel@sentinel-marketplace`（若已发布） |
+| **Cursor** | 使用根目录 `AGENTS.md`；或将 `skills/sentinel-skill/` 下各技能纳入 `.cursor/rules` / Skills（按 Cursor 版本配置） |
+| **Codex** | 将 `skills/sentinel-skill/*` 同步到 `~/.codex/skills` 或项目 `.codex` 约定路径（保持 `sentinel-skill/<name>/SKILL.md` 或按该工具要求扁平化） |
+| **Trae / 其它** | 导入本仓库，使助手能读取 `skills/sentinel-skill/**/*.md` |
 
 ---
 
@@ -128,34 +165,35 @@ git clone https://github.com/wangdongzuopin/sentinel-skill ~/.claude/sentinel
 ```
 sentinel/
 ├── README.md
+├── AGENTS.md                 # 多宿主项目级入口提示 / Project entry hint for Cursor & similar
 └── skills/
-    ├── using-sentinel/
-    │   └── SKILL.md              # 入口技能 / Entry point
-    ├── sentinel-audit/
-    │   ├── SKILL.md              # 审计方法论 / Audit methodology
-    │   └── references/
-    │       ├── patterns-php.md
-    │       ├── patterns-python.md
-    │       ├── patterns-js.md
-    │       ├── patterns-java.md
-    │       ├── patterns-vue.md
-    │       ├── patterns-react.md
-    │       ├── patterns-angular.md
-    │       └── patterns-idor.md
-    ├── sentinel-pentest/
-    │   └── SKILL.md              # 渗透测试 / Pentest methodology
-    ├── sentinel-ctf/
-    │   └── SKILL.md              # CTF 挑战 / CTF challenges
-    ├── sentinel-report/
-    │   └── SKILL.md              # 报告模板 / Report templates
-    ├── sentinel-cve/
-    │   └── SKILL.md              # CVE 查询 / CVE lookup
-    └── sentinel-frontend/
-        ├── SKILL.md              # 前端安全 / Frontend security
-        └── references/
-            ├── patterns-vue.md
-            ├── patterns-react.md
-            └── patterns-angular.md
+    └── sentinel-skill/       # 8 个技能统一在此目录下 / All eight skills live here
+        ├── using-sentinel/
+        │   └── SKILL.md              # 入口技能 / Entry point
+        ├── sentinel-workflow/
+        │   └── SKILL.md              # 内置工作流 / Built-in workflow
+        ├── sentinel-audit/
+        │   ├── SKILL.md              # 审计方法论 / Audit methodology
+        │   └── references/
+        │       ├── patterns-php.md
+        │       ├── patterns-python.md
+        │       ├── patterns-js.md
+        │       ├── patterns-java.md
+        │       └── patterns-idor.md
+        ├── sentinel-pentest/
+        │   └── SKILL.md              # 渗透测试 / Pentest methodology
+        ├── sentinel-ctf/
+        │   └── SKILL.md              # CTF 挑战 / CTF challenges
+        ├── sentinel-report/
+        │   └── SKILL.md              # 报告模板 / Report templates
+        ├── sentinel-cve/
+        │   └── SKILL.md              # CVE 查询 / CVE lookup
+        └── sentinel-frontend/
+            ├── SKILL.md              # 前端安全 / Frontend security
+            └── references/
+                ├── patterns-vue.md
+                ├── patterns-react.md
+                └── patterns-angular.md
 ```
 
 ---
@@ -169,11 +207,11 @@ sentinel/
 <!-- /lang:en -->
 
 <!-- lang:zh -->
-安装后，技能会根据上下文自动触发。也可以显式调用：
+在支持技能发现与描述的宿主上，技能**可能**按上下文自动匹配；在 Cursor、Trae 等环境更稳妥的做法是：**显式**引用对应 `SKILL.md` 或在规则中固定入口（见 `AGENTS.md`）。自然语言示例：
 <!-- /lang:zh -->
 
 <!-- lang:en -->
-Once installed, skills trigger automatically based on context. You can also invoke explicitly:
+On hosts with skill discovery, skills **may** auto-match from `description`. For Cursor, Trae, and similar clients, prefer **explicit** references to the right `SKILL.md` or a fixed entry in project rules (see `AGENTS.md`). Example prompts:
 <!-- /lang:en -->
 
 ```
@@ -248,6 +286,7 @@ Once installed, skills trigger automatically based on context. You can also invo
 | CTF 挑战 / CTF | `sentinel:sentinel-ctf` | — |
 | 报告 / Report | `sentinel:sentinel-report` | — |
 | CVE 查询 / CVE | `sentinel:sentinel-cve` | — |
+| 根因分析、完成前验证、修复评审、多目标并行 / Root cause, verify, review fixes, parallel work | `sentinel:sentinel-workflow` | — |
 
 <!-- lang:zh -->
 **不确定时：** 优先使用 `sentinel:sentinel-audit` — 覆盖范围最广。
@@ -280,6 +319,8 @@ Once installed, skills trigger automatically based on context. You can also invo
 │  CVE 查询 / CVE Lookup?                 │ → sentinel:sentinel-cve
 ├─────────────────────────────────────────┤
 │  报告 / Write Report?                   │ → sentinel:sentinel-report
+├─────────────────────────────────────────┤
+│  根因 / 验证 / 评审 / 多目标并行?           │ → sentinel:sentinel-workflow
 └─────────────────────────────────────────┘
     ↓
 不确定时 → sentinel:sentinel-audit
@@ -288,78 +329,57 @@ Once installed, skills trigger automatically based on context. You can also invo
 ---
 
 <!-- lang:zh -->
-## 与 Superpowers 集成 / Integration with Superpowers
+## 内置工作流与典型闭环 / Built-in workflow & typical loop
 <!-- /lang:zh -->
 
 <!-- lang:en -->
-## Integration with Superpowers
+## Built-in workflow & typical loop
 <!-- /lang:en -->
 
 <!-- lang:zh -->
-**Sentinel 是 Superpowers 的安全扩展，不是替代品。**
+`sentinel:sentinel-workflow` 提供与常见 agent 工作流包**对等的能力**：系统化根因追踪、完成前验证、面向安全的代码评审、威胁向设计探索、多目标并行分析。无需再引用外部 `superpowers:*` 技能名即可完成同类任务。
 <!-- /lang:zh -->
 
 <!-- lang:en -->
-**Sentinel is a security extension for Superpowers, NOT a replacement.**
+`sentinel:sentinel-workflow` provides **parity** with common agent workflow packs: systematic root-cause tracing, verification before completion, security-oriented code review, threat-focused design exploration, and parallel multi-target analysis — without requiring external `superpowers:*` skill names.
 <!-- /lang:en -->
 
-### 协作模型 / Collaboration Model
+### 能力对照 / Capability mapping (conceptual)
 
-```
-Superpowers (基础框架 / Base Framework)
-    │
-    ├── 开发工作流 / Development Workflow
-    ├── 代码审查 / Code Review
-    ├── 测试驱动开发 / TDD
-    ├── 调试 / Debugging
-    │
-    └── Sentinel (安全扩展 / Security Extension) ← 专注安全 / Focused on Security
-        ├── 代码审计 / Code Audit
-        ├── 渗透测试 / Penetration Testing
-        ├── CTF 挑战 / CTF Challenges
-        └── 报告生成 / Report Generation
-```
+| 常见外部工作流意图 / Typical external intent | Sentinel 内置 / In Sentinel |
+|---------------------------------------------|---------------------------|
+| Systematic debugging | `sentinel-workflow` → Systematic root-cause tracing |
+| Verification before completion | `sentinel-workflow` → Verification before completion |
+| Requesting code review | `sentinel-workflow` → Security-focused code review |
+| Brainstorming / design | `sentinel-workflow` → Design exploration |
+| Subagent / parallel work | `sentinel-workflow` → Parallel multi-target work |
 
-### 配合技能 / Superpowers Integration Skills
-
-| Superpowers 技能 / Skill | Sentinel 配合场景 / Use Case |
-|-------------------------|------------------------------|
-| `superpowers:systematic-debugging` | 漏洞根因分析 / Trace vulnerability root cause |
-| `superpowers:requesting-code-review` | 安全修复审查 / Review security fixes |
-| `superpowers:subagent-driven-development` | 并行多目标评估 / Parallel assessments |
-| `superpowers:brainstorming` | 安全方案设计 / Security design |
-| `superpowers:verification-before-completion` | 漏洞修复验证 / Verify fixes |
-
-### 典型安全工作流 / Typical Security Workflow
+### 典型安全工作流 / Typical security workflow (standalone)
 
 ```
 1. 发现安全问题 / Security issue discovered
    ↓
-2. superpowers:systematic-debugging → 分析根因 / analyze root cause
+2. sentinel:sentinel-workflow → 分析根因 / analyze root cause
    ↓
 3. sentinel:sentinel-audit → 代码审计 / code audit
    ↓
 4. sentinel:sentinel-cve → CVE/CVSS 查询 / CVE/CVSS lookup
    ↓
-5. superpowers:requesting-code-review → 审查修复 / review the fix
+5. sentinel:sentinel-workflow → 审查修复 / review the fix
    ↓
 6. sentinel:sentinel-report → 生成报告 / generate report
 ```
 
-### 指令优先级 / Instruction Priority
+### 指令优先级 / Instruction priority
 
-<!-- lang:zh -->
-Sentinel 遵循与 Superpowers 相同的优先级链：
-<!-- /lang:zh -->
+1. **用户的明确指令 / User's explicit instructions** — 最高 / highest
+2. **Sentinel 安全技能 / Sentinel security skills** — 安全方法论 / security methodology
+3. **`sentinel-workflow`** — 调试、验证、评审、规划 / debugging, verification, review, planning
+4. **系统默认行为 / System default** — 最低 / lowest
 
-<!-- lang:en -->
-Sentinel follows the same priority chain as Superpowers:
-<!-- /lang:en -->
+### 可选：与 Superpowers 并存 / Optional: coexisting with Superpowers
 
-1. **用户的明确指令 / User's explicit instructions** — 最高优先级 / highest priority
-2. **Sentinel 安全技能 / Sentinel security skills** — 安全任务时覆盖 / override for security tasks
-3. **Superpowers 技能 / Superpowers skills** — 开发工作流仍适用 / still apply for workflow
-4. **系统默认行为 / System default** — 最低优先级 / lowest priority
+若环境已加载 Superpowers，可继续使用其技能；与 `sentinel-workflow` **同类任务择一即可**，避免重复指令链。
 
 ---
 
@@ -402,9 +422,9 @@ Skills will not assist with unauthorized access to systems.
 <!-- /lang:en -->
 
 <!-- lang:zh -->
-基于 [Superpowers 技能框架](https://github.com/obra/superpowers)。技能编写指南见 Superpowers 仓库的 `skills/writing-skills/SKILL.md`。
+技能文件格式遵循各 AI 助手常见的「带 YAML 头的 Markdown 技能」约定（与 Claude Code、Codex、Cursor 等生态中流行的写法兼容）。编写新技能时可参考社区文档（例如 [Superpowers 的 skill 编写说明](https://github.com/obra/superpowers)）作为风格参考，**非运行时依赖**。
 <!-- /lang:zh -->
 
 <!-- lang:en -->
-Built on the [Superpowers skill framework](https://github.com/obra/superpowers). See `skills/writing-skills/SKILL.md` in the Superpowers repo for the skill authoring guide.
+Skill files follow the common **Markdown + YAML frontmatter** pattern used across Claude Code, Codex, Cursor-style skill/rule ecosystems. For authoring style references, see community guides such as [Superpowers `writing-skills`](https://github.com/obra/superpowers) — **not** a runtime dependency.
 <!-- /lang:en -->

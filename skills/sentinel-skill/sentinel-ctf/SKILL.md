@@ -322,4 +322,4 @@ Before declaring "no flag found":
 ## Integration
 
 - For web challenge source code analysis: `sentinel:sentinel-audit`
-- When a pwn challenge involves debugging: `superpowers:systematic-debugging`
+- When a pwn challenge involves debugging: `sentinel:sentinel-workflow` (systematic root-cause tracing)

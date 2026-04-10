@@ -1,19 +1,19 @@
 ---
 name: using-sentinel
-description: Use when starting any security task — code audit, penetration testing, CTF challenge, or vulnerability research. Establishes which sentinel sub-skill to invoke and sets the security analysis mindset. Always invoke before any security-related response.
+description: Use when starting any security task in any AI coding agent (Claude Code, Cursor, Codex, Trae, etc.) — code audit, penetration testing, CTF, or vulnerability research. Establishes which sentinel sub-skill to follow (including sentinel-workflow for root-cause tracing, verification, and review) and sets the security analysis mindset. Prefer loading this SKILL.md explicitly if the host has no automatic skill discovery.
 ---
 
 # Using Sentinel
 
-Sentinel extends Superpowers with security-focused skills. It follows the same philosophy: **if a security skill might apply, invoke it. No exceptions.**
+**Multi-host:** This file is plain Markdown with YAML frontmatter. Use it from **Claude Code, Cursor, Codex, Trae**, or any agent that can load project rules or skill files. The prefix `sentinel:` in examples is a **logical id** — your client may expose it as a rule name, plugin skill, or file path.
+
+Sentinel is a **standalone** security skill suite. It follows the same discipline as leading agent workflow packs: **if a security skill might apply, invoke it. No exceptions.**
 
 ## Instruction Priority
 
-Sentinel inherits Superpowers' priority chain:
-
 1. **User's explicit instructions** — highest priority
-2. **Sentinel skills** — override defaults for security tasks
-3. **Superpowers skills** — still apply for development workflow
+2. **Sentinel security skills** — override defaults for security tasks (`sentinel-audit`, `sentinel-frontend`, `sentinel-pentest`, `sentinel-ctf`, `sentinel-cve`, `sentinel-report`)
+3. **`sentinel-workflow`** — systematic debugging, verification, structured review, and planning (see below)
 4. **Default system behavior** — lowest priority
 
 ## Skill Selection
@@ -58,6 +58,7 @@ Before invoking any skill, identify what you're working with:
 | **Live System (authorized)** | `sentinel:sentinel-pentest` | — |
 | **CTF Challenge** | `sentinel:sentinel-ctf` | — |
 | **Report Writing** | `sentinel:sentinel-report` | — |
+| **Root cause, verification, structured review, parallel targets** | `sentinel:sentinel-workflow` | — |
 
 **Skill Routing Flow:**
 
@@ -86,14 +87,12 @@ Before invoking any sentinel skill, adopt this posture:
 - **Evidence over intuition.** Document what you find, not what you feel.
 - **Scope matters.** Never exceed authorized scope. Confirm before acting.
 
-## Integration with Superpowers
+## Built-in workflow (no external plugin required)
 
-Sentinel works alongside Superpowers, not instead of it:
+- Use `sentinel:sentinel-workflow` for root-cause tracing, pre-completion verification, security-focused review of diffs, design exploration, and parallel multi-target analysis
+- Use `sentinel:sentinel-report` at the end of any engagement that needs a structured write-up
 
-- Use `superpowers:systematic-debugging` when tracing a vulnerability's root cause
-- Use `superpowers:requesting-code-review` after completing an audit pass
-- Use `superpowers:subagent-driven-development` to parallelize multi-target assessments
-- Use `sentinel:sentinel-report` at the end of any engagement
+Optional: if your environment also loads the Superpowers plugin, you may use those workflow skills interchangeably with `sentinel-workflow` for the same class of tasks.
 
 ## Red Flags
 

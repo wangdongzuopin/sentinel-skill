@@ -652,5 +652,5 @@ Load the relevant reference when auditing:
 ## Integration
 
 - After audit: invoke `sentinel:sentinel-report` to structure findings
-- For complex vulnerability root cause: invoke `superpowers:systematic-debugging`
-- For reviewing audit diffs: invoke `superpowers:requesting-code-review`
+- For complex vulnerability root cause: invoke `sentinel:sentinel-workflow` (systematic root-cause tracing)
+- For reviewing audit diffs: invoke `sentinel:sentinel-workflow` (security-focused code review)

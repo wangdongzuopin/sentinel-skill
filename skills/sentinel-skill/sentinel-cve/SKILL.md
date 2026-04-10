@@ -36,7 +36,7 @@ gh advisory search --ecosystem npm --package express
 
 ### AI-Assisted Lookup
 
-Use `superpowers:superpowers:systematic-debugging` to trace whether the vulnerability actually affects your specific version/configuration before escalating.
+Use `sentinel:sentinel-workflow` (systematic root-cause tracing) to verify whether the vulnerability actually affects your specific version/configuration before escalating.
 
 ## Step 2: Understand CVSS Scoring
 
@@ -193,5 +193,5 @@ curl -s "https://ubuntu.com/security/CVE-YYYY-NNNNN"
 ## Integration
 
 - After finding a vulnerability: `sentinel:sentinel-report` for vulnerability disclosure
-- For exploit development verification: `superpowers:systematic-debugging`
+- For exploit development verification: `sentinel:sentinel-workflow` (verification + root-cause tracing)
 - For code-level fix confirmation: `sentinel:sentinel-audit`

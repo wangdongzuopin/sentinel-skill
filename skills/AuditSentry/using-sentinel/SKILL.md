@@ -1,6 +1,6 @@
 ---
 name: using-sentinel
-description: Use when starting any security task in any AI coding agent (Claude Code, Cursor, Codex, Trae, etc.) — code audit, penetration testing, CTF, or vulnerability research. Establishes which sentinel sub-skill to follow (including sentinel-workflow for root-cause tracing, verification, and review) and sets the security analysis mindset. Prefer loading this SKILL.md explicitly if the host has no automatic skill discovery.
+description: Entry for security tasks (audit, pentest, CTF, CVE). After audit/pentest/frontend audit completes, MUST load sentinel-report/SKILL.md and Write .md + .html — never stop at chat-only findings.
 ---
 
 # Using Sentinel
@@ -8,6 +8,16 @@ description: Use when starting any security task in any AI coding agent (Claude 
 **Multi-host:** This file is plain Markdown with YAML frontmatter. Use it from **Claude Code, Cursor, Codex, Trae**, or any agent that can load project rules or skill files. The prefix `sentinel:` in examples is a **logical id** — your client may expose it as a rule name, plugin skill, or file path.
 
 Sentinel is a **standalone** security skill suite. It follows the same discipline as leading agent workflow packs: **if a security skill might apply, invoke it. No exceptions.**
+
+## Audit / pentest completion — you MUST chain sentinel-report
+
+When **`sentinel-audit`**, **`sentinel-pentest`**, or **`sentinel-frontend`** work reaches **findings delivered** or **audit complete**:
+
+1. **Open** `skills/sentinel/sentinel-report/SKILL.md` (path relative to this repo).
+2. **Follow** its **Closing gate** and **`Write`** `sentinel-security-assessment.md` + `sentinel-security-assessment.html`.
+3. **Do not** treat “list of vulnerabilities in chat” as the final step.
+
+If the host does not auto-load skills, **you still perform the same steps** (questions + file writes) — the skill file is the spec.
 
 ## Instruction Priority
 
@@ -90,7 +100,7 @@ Before invoking any sentinel skill, adopt this posture:
 ## Built-in workflow (no external plugin required)
 
 - Use `sentinel:sentinel-workflow` for root-cause tracing, pre-completion verification, security-focused review of diffs, design exploration, and parallel multi-target analysis
-- Use `sentinel:sentinel-report` at the end of any engagement that needs a structured write-up
+- Use `sentinel:sentinel-report` at the end of any engagement that needs a structured write-up — **default** write **both** `.md` + offline `.html`; **must ask which folder** to save into; user can opt out of HTML explicitly; do not stop at chat-only markdown unless the user refused files
 
 Optional: if your environment also loads the Superpowers plugin, you may use those workflow skills interchangeably with `sentinel-workflow` for the same class of tasks.
 

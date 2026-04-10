@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Security Assessment Report - vulnerable-demo-app</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f5f5f5;color:#1a1a2e}
+    .wrap{max-width:56rem;margin:0 auto;padding:2rem 1rem}
+    h1{font-size:1.8rem;color:#1a1a2e;margin-bottom:.3rem}
+    h2{font-size:1.3rem;color:#2d4a6f;margin:1.8rem 0 .8rem;border-bottom:2px solid #e0e0e0;padding-bottom:.3rem}
+    h3{font-size:1.1rem;color:#c0392b;margin:.8rem 0 .4rem}
+    .meta{color:#888;font-size:.85rem;margin-bottom:1.5rem}
+    .badge{display:inline-block;padding:.15rem .6rem;border-radius:.25rem;font-size:.78rem;font-weight:600;color:#fff}
+    .badge-critical{background:#b42318}.badge-high{background:#d95c4f}.badge-medium{background:#f0ad4e}.badge-low{background:#5b8fbf}
+    .finding{background:#fff;border-radius:.5rem;padding:1.2rem;margin:.8rem 0;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+    .finding h3{margin-top:0}
+    table{width:100%;border-collapse:collapse;margin:.8rem 0;background:#fff;border-radius:.5rem;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+    th,td{padding:.65rem 1rem;text-align:left;border-bottom:1px solid #eee}
+    th{background:#f8f9fa;font-weight:600;color:#2d4a6f;font-size:.85rem}
+    tr:last-child td{border-bottom:none}
+    code{background:#f0f0f0;padding:.15rem .4rem;border-radius:.2rem;font-size:.88em;color:#c0392b;font-family:'Fira Code','Consolas',monospace}
+    pre{background:#1e1e2e;color:#cdd6f4;padding:1rem;border-radius:.5rem;overflow-x:auto;font-size:.85rem;line-height:1.5}
+    .chart-wrap{background:#fff;border-radius:.5rem;padding:1.5rem;margin:1rem 0;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+    .chart-wrap h2{margin-top:0}
+    #chart-severity{width:100%;height:300px}
+    .severity-critical{color:#b42318}.severity-high{color:#d95c4f}
+    .recommendation{background:#fffbeb;border-left:4px solid #f0ad4e;padding:.8rem 1rem;border-radius:0 .4rem .4rem 0;margin:.5rem 0}
+    .summary-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(8rem,1fr));gap:.8rem;margin:1rem 0}
+    .card{background:#fff;padding:1rem;border-radius:.5rem;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+    .card .num{font-size:2rem;font-weight:700}
+    .card .label{font-size:.8rem;color:#666;margin-top:.2rem}
+    .card.critical .num{color:#b42318}.card.high .num{color:#d95c4f}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Security Assessment Report</h1>
+  <p class="meta">Target: vulnerable-demo-app &nbsp;|&nbsp; Type: Code Audit (SAST) &nbsp;|&nbsp; Date: 2026-04-10 &nbsp;|&nbsp; Overall Risk: <span class="severity-critical">Critical</span></p>
+
+  <div class="summary-cards">
+    <div class="card critical"><div class="num">3</div><div class="label">Critical</div></div>
+    <div class="card high"><div class="num">3</div><div class="label">High</div></div>
+    <div class="card"><div class="num" style="color:#555">0</div><div class="label">Medium</div></div>
+    <div class="card"><div class="num" style="color:#555">0</div><div class="label">Low</div></div>
+  </div>
+
+  <div class="chart-wrap">
+    <h2>Vulnerability Severity Distribution</h2>
+    <div id="chart-severity"></div>
+  </div>
+
+  <h2>Findings</h2>
+
+  <div class="finding">
+    <h3><span class="badge badge-critical">CRITICAL</span> &nbsp;FIND-001: SQL Injection</h3>
+    <p><strong>CWE:</strong> CWE-89 &nbsp;|&nbsp; <strong>CVSS:</strong> 9.8 &nbsp;|&nbsp; <strong>Location:</strong> server.js:22</p>
+    <p><strong>Description:</strong> User-supplied input from the <code>username</code> query parameter is directly concatenated into a SQL query without parameterization.</p>
+    <p><strong>Impact:</strong> Attacker can extract, modify, or delete all database data including hardcoded credentials.</p>
+    <p><strong>Evidence:</strong></p>
+    <pre>const sql = `SELECT * FROM users WHERE username = '${username}'`;
+// Attack: ?username=' OR '1'='1 → returns all users</pre>
+    <div class="recommendation">
+      <strong>Recommendation:</strong> Use parameterized queries: <code>db.all("SELECT * FROM users WHERE username = ?", [username], ...)</code>
+    </div>
+  </div>
+
+  <div class="finding">
+    <h3><span class="badge badge-critical">CRITICAL</span> &nbsp;FIND-002: Command Injection</h3>
+    <p><strong>CWE:</strong> CWE-78 &nbsp;|&nbsp; <strong>CVSS:</strong> 9.8 &nbsp;|&nbsp; <strong>Location:</strong> server.js:35</p>
+    <p><strong>Description:</strong> The <code>host</code> parameter is passed directly to <code>execSync()</code> without validation.</p>
+    <p><strong>Impact:</strong> Remote Code Execution — attacker gains full control of the server OS.</p>
+    <p><strong>Evidence:</strong></p>
+    <pre>execSync(`ping -n 1 ${host}`, ...);
+// Attack: {"host": "127.0.0.1; cat /etc/passwd"}</pre>
+    <div class="recommendation">
+      <strong>Recommendation:</strong> Use <code>execFile</code> with strict input validation: <code>const validHost = /^[a-zA-Z0-9.-]+$/.test(host) ? host : null</code>
+    </div>
+  </div>
+
+  <div class="finding">
+    <h3><span class="badge badge-critical">CRITICAL</span> &nbsp;FIND-003: Exposure of Sensitive Information</h3>
+    <p><strong>CWE:</strong> CWE-798 &nbsp;|&nbsp; <strong>CVSS:</strong> 9.1 &nbsp;|&nbsp; <strong>Location:</strong> server.js:63-67</p>
+    <p><strong>Description:</strong> The <code>/api/config</code> endpoint exposes database passwords, AWS keys, and JWT secrets in plain text.</p>
+    <p><strong>Impact:</strong> Full database compromise, AWS account takeover, authentication bypass.</p>
+    <p><strong>Evidence:</strong></p>
+    <pre>res.json({
+  DATABASE_URL: 'mysql://admin:SuperSecret123@localhost:3306/prod',
+  AWS_ACCESS_KEY: 'AKIAIOSFODNN7EXAMPLE',
+  JWT_SECRET: 'my-super-secret-jwt-key-12345',
+  DEBUG: 'true'
+});</pre>
+    <div class="recommendation">
+      <strong>Recommendation:</strong> Remove this endpoint. Store secrets in environment variables only.
+    </div>
+  </div>
+
+  <div class="finding">
+    <h3><span class="badge badge-high">HIGH</span> &nbsp;FIND-004: Cross-Site Scripting (XSS)</h3>
+    <p><strong>CWE:</strong> CWE-79 &nbsp;|&nbsp; <strong>CVSS:</strong> 8.2 &nbsp;|&nbsp; <strong>Location:</strong> server.js:46</p>
+    <p><strong>Description:</strong> User-supplied Markdown content is parsed and rendered as HTML without sanitization via <code>marked.parse()</code>.</p>
+    <p><strong>Impact:</strong> Session hijacking, credential theft, defacement.</p>
+    <p><strong>Evidence:</strong></p>
+    <pre>const html = marked.parse(content || '');
+res.send(`&lt;html&gt;&lt;body&gt;${html}&lt;/body&gt;&lt;/html&gt;`);
+// Attack: ?content=&lt;script&gt;alert(document.cookie)&lt;/script&gt;</pre>
+    <div class="recommendation">
+      <strong>Recommendation:</strong> Sanitize with DOMPurify: <code>DOMPurify.sanitize(marked.parse(content))</code>
+    </div>
+  </div>
+
+  <div class="finding">
+    <h3><span class="badge badge-high">HIGH</span> &nbsp;FIND-005: Path Traversal</h3>
+    <p><strong>CWE:</strong> CWE-22 &nbsp;|&nbsp; <strong>CVSS:</strong> 7.5 &nbsp;|&nbsp; <strong>Location:</strong> server.js:52</p>
+    <p><strong>Description:</strong> User-supplied <code>filename</code> parameter is directly concatenated to the file path without validation.</p>
+    <p><strong>Impact:</strong> Read arbitrary files on the server.</p>
+    <p><strong>Evidence:</strong></p>
+    <pre>const filepath = path.join(__dirname, 'uploads', filename);
+// Attack: ?filename=../../server.js</pre>
+    <div class="recommendation">
+      <strong>Recommendation:</strong> Validate and resolve path: <code>const safePath = path.resolve(...); if (!safePath.startsWith(baseDir)) return 403</code>
+    </div>
+  </div>
+
+  <div class="finding">
+    <h3><span class="badge badge-high">HIGH</span> &nbsp;FIND-006: Insecure Direct Object Reference (IDOR)</h3>
+    <p><strong>CWE:</strong> CWE-639 &nbsp;|&nbsp; <strong>CVSS:</strong> 7.1 &nbsp;|&nbsp; <strong>Location:</strong> server.js:74</p>
+    <p><strong>Description:</strong> <code>/api/user/:id</code> returns user data for any ID without verifying requester's authorization.</p>
+    <p><strong>Impact:</strong> Any user can view, modify, or delete other users' data by changing the ID.</p>
+    <p><strong>Evidence:</strong></p>
+    <pre>db.get(`SELECT * FROM users WHERE id = ${id}`, ...);
+// User 2 can access User 1's data by GET /api/user/1</pre>
+    <div class="recommendation">
+      <strong>Recommendation:</strong> Add authorization check: <code>if (requestingUser.id !== targetId && requestingUser.role !== 'admin') return 403</code>
+    </div>
+  </div>
+
+  <h2>Recommendations Summary</h2>
+  <table>
+    <tr><th>Timeline</th><th>Action</th></tr>
+    <tr><td><strong>Immediate (≤48h)</strong></td><td>Remove /api/config endpoint; Fix SQL injection; Fix command injection</td></tr>
+    <tr><td><strong>Short-term (≤2 weeks)</strong></td><td>Parameterize all DB queries; Add input validation; Implement RBAC</td></tr>
+    <tr><td><strong>Medium-term (≤90 days)</strong></td><td>Add Helmet.js security headers; Add rate limiting; Set up dependency scanning</td></tr>
+  </table>
+
+  <h2>OWASP Top 10 2021 Coverage</h2>
+  <table>
+    <tr><th>Category</th><th>Finding</th></tr>
+    <tr><td>A01 - Broken Access Control</td><td>IDOR (FIND-006)</td></tr>
+    <tr><td>A02 - Cryptographic Failures</td><td>Hardcoded secrets (FIND-003)</td></tr>
+    <tr><td>A03 - Injection</td><td>SQL Injection (FIND-001), Command Injection (FIND-002), XSS (FIND-004)</td></tr>
+    <tr><td>A05 - Security Misconfiguration</td><td>Secrets in config endpoint (FIND-003), DEBUG=true</td></tr>
+  </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<script>
+  const chart = echarts.init(document.getElementById('chart-severity'));
+  chart.setOption({
+    tooltip: { trigger: 'item', formatter: '{b}: {c} ({d}%)' },
+    legend: { orient: 'vertical', left: 'left' },
+    series: [{
+      type: 'pie',
+      radius: ['40%', '70%'],
+      data: [
+        { value: 3, name: 'Critical', itemStyle: { color: '#b42318' } },
+        { value: 3, name: 'High', itemStyle: { color: '#d95c4f' } }
+      ],
+      emphasis: { itemStyle: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0,0,0,0.5)' } },
+      label: { formatter: '{b}\n{c} ({d}%)' }
+    }]
+  });
+  window.addEventListener('resize', () => chart.resize());
+</script>
+</body>
+</html>

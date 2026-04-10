@@ -1,9 +1,11 @@
 ---
-name: sentinel-frontend
-description: Use when auditing or testing Vue.js, React, Angular, or other frontend JavaScript frameworks for security issues. Invoke when user shares frontend code and asks about XSS, CSRF, dependency vulnerabilities, or secure state management.
----
+
+## name: sentinel-frontend
+description: Frontend security audit (Vue/React/Angular). When audit findings are final, MUST chain to sentinel-report — read sentinel-report/SKILL.md, ask save folder, Write .md + offline .html.
 
 # Sentinel: Frontend Security
+
+> **Mandatory handoff:** When you **finish** listing frontend findings, you **must** apply `**sentinel-report`** — read `skills/sentinel/sentinel-report/SKILL.md`, **Closing gate**, `**Write`** `.md` + `.html`.
 
 Frontend security has unique challenges: code runs in the user's browser, frameworks abstract away DOM manipulation, and client-side controls are easily bypassed. The same vulnerability classes apply (XSS, injection, CSRF) but the attack surface and defenses look different.
 
@@ -220,13 +222,15 @@ npx webpack-bundle-analyzer
 
 ### Common Vulnerable Frontend Dependencies
 
-| Package | Vulnerability | Fix |
-|---------|--------------|-----|
-| `jquery < 3.5.0` | XSS via `$()` selector | Upgrade |
-| `lodash < 4.17.12` | Prototype pollution | Upgrade |
-| `serialize-javascript < 3.1.0` | XSS via serialization | Upgrade |
-| `vue-template-compiler < 3.0.0` | XSS in templates | Upgrade |
-| `react-dom < 16.4.0` | Various | Upgrade |
+
+| Package                         | Vulnerability          | Fix     |
+| ------------------------------- | ---------------------- | ------- |
+| `jquery < 3.5.0`                | XSS via `$()` selector | Upgrade |
+| `lodash < 4.17.12`              | Prototype pollution    | Upgrade |
+| `serialize-javascript < 3.1.0`  | XSS via serialization  | Upgrade |
+| `vue-template-compiler < 3.0.0` | XSS in templates       | Upgrade |
+| `react-dom < 16.4.0`            | Various                | Upgrade |
+
 
 ### Supply Chain Attacks
 
@@ -268,13 +272,15 @@ npx package-check <package-name>
 
 ### What CSP Protects Against
 
-| CSP Directive | Protects Against |
-|---------------|------------------|
-| `script-src 'self'` | Prevents inline script injection |
-| `object-src 'none'` | Blocks Flash/plugin-based attacks |
-| `frame-ancestors 'none'` | Prevents clickjacking |
-| `connect-src` | Limits API calls to trusted sources |
-| `report-uri` | Detects CSP violations (attacks in progress) |
+
+| CSP Directive            | Protects Against                             |
+| ------------------------ | -------------------------------------------- |
+| `script-src 'self'`      | Prevents inline script injection             |
+| `object-src 'none'`      | Blocks Flash/plugin-based attacks            |
+| `frame-ancestors 'none'` | Prevents clickjacking                        |
+| `connect-src`            | Limits API calls to trusted sources          |
+| `report-uri`             | Detects CSP violations (attacks in progress) |
+
 
 ## Grep Patterns for Frontend Audit
 
@@ -303,4 +309,5 @@ grep -rni 'apiKey\s*=\s*["\x27]\|token\s*=\s*["\x27]\|secret\s*=' . --include="*
 
 - For React/Vue specific issues: use `sentinel:sentinel-audit` for broader context
 - For dependency CVEs: use `sentinel:sentinel-cve` for scoring and prioritization
-- After audit: `sentinel:sentinel-report` for documenting findings
+- After audit: `sentinel:sentinel-report` — **ask save folder**; **default** `.md` + offline HTML; **write** files
+

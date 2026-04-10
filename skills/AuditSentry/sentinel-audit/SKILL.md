@@ -1,9 +1,11 @@
 ---
 name: sentinel-audit
-description: Use for source code security audits, code review for vulnerabilities, SAST analysis, dependency scanning, and security architecture review. Invoke when user shares code and asks about security, mentions "audit", "vulnerability", "CVE", "SAST", or asks to find bugs in code.
+description: Source code security audits, SAST, dependency review. When findings are listed or audit ends, MUST chain to sentinel-report — read skills/sentinel/sentinel-report/SKILL.md, ask save folder, Write .md + offline .html. Triggers on audit, vulnerability, security review, 审计.
 ---
 
 # Sentinel: Code Audit
+
+> **Mandatory handoff:** When you present **final findings** or the user’s audit request is **done**, you **must** in the **same conversation** apply **`sentinel-report`** — open `skills/sentinel/sentinel-report/SKILL.md`, run its **Closing gate**, and **`Write`** `sentinel-security-assessment.md` + `.html`. **Do not** end with chat-only bullet lists.
 
 Security code review is not about finding syntax errors — it's about understanding **what the code trusts and whether that trust is justified**.
 
@@ -641,6 +643,16 @@ Before reporting any finding:
 
 False positives waste everyone's time. Verify before reporting.
 
+## Phase 6: Report handoff (MANDATORY — sentinel-report)
+
+**Do not skip.** After Phase 5, you **must**:
+
+1. **Read** `skills/sentinel/sentinel-report/SKILL.md` (same repo / skill bundle).
+2. **Execute** its **Closing gate** (ask **which folder** to save; default `.md` + offline `.html`).
+3. **`Write`** both files to disk — **not** optional “if user asks”.
+
+If the workspace path differs, use the path where this Sentinel bundle lives. If you cannot read files, still **ask** the closing-gate questions and **Write** the report using the template in `sentinel-report`.
+
 ## References
 
 Load the relevant reference when auditing:
@@ -651,6 +663,6 @@ Load the relevant reference when auditing:
 
 ## Integration
 
-- After audit: invoke `sentinel:sentinel-report` to structure findings
+- After audit: follow `sentinel:sentinel-report` — **ask which folder** to save into; **default** `.md` + offline HTML there; opt-out of HTML only if user says so; **write** files to disk
 - For complex vulnerability root cause: invoke `sentinel:sentinel-workflow` (systematic root-cause tracing)
 - For reviewing audit diffs: invoke `sentinel:sentinel-workflow` (security-focused code review)
